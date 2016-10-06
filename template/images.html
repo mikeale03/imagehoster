@@ -1,0 +1,17 @@
+<div style="text-align:center" class="file-input">
+  <br>
+  <h1>Upload Your Images</h1>
+  <div style="display:inline-block">
+    <br>
+    <b>Browse Your Images<b>
+    <input file-input type="file" multiple accept="image/*" show-imgs="upCtrl.images"/>
+    <br>
+    <b>Or Drag and Drop Your Images Here</b>
+  </div>
+</div>
+<div class="upload-images">
+  <div image-container ng-repeat="img in upCtrl.images track by img.id" img="img" show-imgs="upCtrl.images" delete="drpCtrl.deleteImage" index="$index" class="image-container">
+
+  </div>
+</div>
+<div id="response"></div>

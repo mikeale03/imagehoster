@@ -1,0 +1,18 @@
+  <div class="sign-form" ng-controller="signUpController as sgnUpCtrl">
+    <br>
+    <h1>Create Your Account</h1>
+    <br>
+    <form class="form-group" ng-submit="sgnUpCtrl.signUp(sgnUpCtrl.user.email,sgnUpCtrl.user.password,sgnUpCtrl.confirm)" method="post">
+      <div class="{{sgnUpCtrl.hasError ? 'has-error':''}}">
+        <input class="form-control" type="email" placeholder="Enter your email address" ng-model="sgnUpCtrl.user.email" required>
+      </div>
+      <div class="{{!sgnUpCtrl.isMatch ? 'has-error':''}}">
+        <input class="form-control" type="password" placeholder="Enter your password" ng-model="sgnUpCtrl.user.password" required>
+      </div>
+      <div class="{{!sgnUpCtrl.isMatch ? 'has-error':''}}">
+        <input class="form-control" type="password" placeholder="Confirm password" ng-model="sgnUpCtrl.confirm" required>
+      </div>
+      <p style="color:red;">{{sgnUpCtrl.errorMsg}}</p>
+      <button class="btn btn-primary btn-block" type="submit">SUBMIT</button>
+    </form>
+  </div>

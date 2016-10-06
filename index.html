@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Image Hoster</title>
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+  </head>
+  <body ng-app="MyApp" ng-controller="mainController as mainCtrl" >
+    <div class="container-fluid" my-dropzone show-imgs="mainCtrl.showImgs">
+      <header ng-controller="navbarController as navCtrl" ng-include="userData.log_in ? 'template/navbar_login.html':'template/navbar_unlog.html'">
+      </header>
+      <ng-view></ng-view>
+      <div id="response"></div>
+    </div>
+      <script type="text/javascript" src="jvscript/app.js"></script>
+      <script type="text/javascript" src="jvscript/drctv_dropzone.js"></script>
+      <script type="text/javascript" src="jvscript/drctv_file_input.js"></script>
+      <script type="text/javascript" src="jvscript/drctv_image_container.js"></script>
+      <script type="text/javascript" src="jvscript/srvc_ajax.js"></script>
+      <script type="text/javascript" src="jvscript/drctv_my_upload.js"></script>
+      <script type="text/javascript" src="jvscript/drctv_img_onload.js"></script>
+  </body>
+</html>

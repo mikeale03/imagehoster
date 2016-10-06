@@ -1,0 +1,15 @@
+<a ng-if = "imgCtrl.isUploadComplete"  href="{{imgCtrl.uploadUrl}}" target="_blank">
+  <div class="image-wrap">
+    <img ng-src="{{img.src}}">
+  </div>
+</a>
+<div ng-hide = "imgCtrl.isUploadComplete" class="image-wrap">
+  <img ng-src="{{img.src}}">
+</div>
+<div class="upload-stat" ng-if="imgCtrl.isUploading">
+  {{imgCtrl.uploadMsg}} <span ng-hide="imgCtrl.isUploadComplete"> {{imgCtrl.uploadPercent+"%"}}</span>
+</div>
+<div>
+  <button ng-click="imgCtrl.deleteImage(img)">delete</button>
+  <button type="button" name="button" ng-click="imgCtrl.upload(img.file, $event)">upload</button>
+</div>

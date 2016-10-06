@@ -1,0 +1,218 @@
+img {
+  width: 100%;
+}
+
+.sign-form {
+  display: inline-block;
+  max-width: 500px;
+}
+.container-fluid {
+    text-align: center;
+}
+.file-input {
+  display: inline-block;
+}
+.upload-images {
+  width: 100%;
+  min-height: 400px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+nav ul {
+  display: inline;
+  color: white;
+}
+input {
+  display: inline;
+}
+.navbar-custom {
+    background-color:#428bca;
+    color:white;
+    border-radius:0;
+}
+
+.navbar-custom .navbar-nav > li > a {
+    color:white;
+}
+
+.navbar-custom .navbar-nav li a:hover {
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.navbar-custom .navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus {
+    background-color:#5bc0de!important;
+}
+.navbar-custom .navbar-brand {
+    color:#eeeeee;
+}
+
+.image-container {
+  position: relative;
+  margin: 10px;
+  width: 200px;
+  text-align: center;
+}
+.image-container button {
+  margin: 10px;
+}
+.image-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.image-wrap img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+ -webkit-transform: translate(-50%,-50%);
+     -ms-transform: translate(-50%,-50%);
+         transform: translate(-50%,-50%);
+}
+.image-name {
+  position: absolute;
+  background: black;
+  color: white;
+  opacity: 0.5;
+  bottom: 0;
+  width: 100%;
+  visibility: hidden;
+}
+.image-wrap:hover .image-name {
+  visibility: visible;
+}
+
+.mismatch-msg {
+  opacity:0.5;
+}
+.upload-stat {
+  background-color: black;
+  color: white;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top:0;
+}
+.mod {
+  /*display: none;  Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    -webkit-animation-name: fadeIn; /* Fade in the background */
+    -webkit-animation-duration: 0.4s;
+    animation-name: fadeIn;
+    animation-duration: 0.4s
+}
+.mod .mod-content {
+  position: relative;
+  display:flex;
+  justify-content: center;
+  align-items:center;
+  margin: auto;
+  width: 700px;
+  height: 700px;
+  /*overflow: auto;*/
+
+}
+
+.mod .mod-content .landscape {
+  width: 100%;
+  height: auto;
+}
+
+.mod .mod-content .portrait {
+  width: auto;
+  height: 100%;
+}
+
+.modal-image-name {
+  visibility: hidden;
+  background: black;
+  color: white;
+  opacity: 0.5;
+  position: absolute;
+  font-size: 1.5em;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+  left:0;
+}
+.input-rename {
+  display: none;
+  position: absolute;
+  top:-20px;
+}
+.renameBtn:focus ~ .input-rename {
+  display: block;
+}
+
+.prevBtn {
+  visibility: hidden;
+  background: black;
+  color: white;
+  opacity: 0.3;
+  position: absolute;
+  font-size: 2em;
+  left:-30px;
+  height: 10%;
+  width: 40px;
+  text-align: center;
+}
+.nxtBtn {
+  visibility: hidden;
+  background: black;
+  color: white;
+  opacity: 0.3;
+  position: absolute;
+  font-size: 2em;
+  right:-30px;
+  height: 10%;
+  width: 40px;
+  text-align: center;
+}
+.closeBtn {
+  visibility: hidden;
+  background: black;
+  color: white;
+  opacity: 0.3;
+  position: absolute;
+  font-size: 2em;
+  top:20px;
+  right: 0;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+}
+.mod-content:hover .prevBtn,
+.mod-content:hover .nxtBtn,
+.mod-content:hover .closeBtn,
+.mod-content:hover .modal-image-name {
+  visibility: visible;
+}
+
+.mod-content:focus .prevBtn,
+.mod-content:focus .nxtBtn,
+.mod-content:focus .closeBtn {
+  visibility: visible;
+}
+
+form {
+  text-align: center;
+}
+form input {
+  margin-bottom: 10px;
+}

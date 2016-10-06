@@ -1,0 +1,27 @@
+<br>
+<h1>My Image Gallery</h1>
+<br>
+<h3 ng-if="galCtrl.imgs.length == 0">You have no images!</h3>
+<div class="upload-images">
+  <div ng-repeat="img in galCtrl.imgs track by img.image_id" class="image-container">
+    <div class="image-wrap" ng-click="galCtrl.showModal(img)">
+      <img ng-src="{{img.image_url}}">
+      <div class="image-name">{{img.image_name}}</div>
+    </div>
+    <div style="position:relative">
+      <div class="input-rename"><input type="text" value="" placeholder="Enter Name"></div>
+      <button ng-click="galCtrl.deleteImage(img)">delete</button>
+      <button class="renameBtn" ng-click=galCtrl.renameImage>rename</button>
+    </div>
+  </div>
+  <div class="mod" ng-show="galCtrl.isShowModal" >
+    <div class="mod-content" tabindex="-1">
+      <img ng-src="{{galCtrl.imgs[galCtrl.index].image_url}}" img-onload >
+      <button ng-click="galCtrl.prevImage()" class="prevBtn"><span>&#60;</span></button>
+      <button ng-click="galCtrl.nextImage()" class="nxtBtn"><span>&#62;</span></button>
+      <button ng-click="galCtrl.closeModal()" class="closeBtn">X</button>
+      <div class="modal-image-name">{{galCtrl.imgs[galCtrl.index].image_name}}</div>
+    </div>
+  </div>
+
+</div>
