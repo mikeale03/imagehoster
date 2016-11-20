@@ -11,5 +11,5 @@
 </div>
 <div>
   <button ng-click="imgCtrl.deleteImage(img)">delete</button>
-  <button type="button" name="button" ng-click="imgCtrl.upload(img.file, $event)">upload</button>
+  <button type="button" name="button" ng-hide="imgCtrl.isUploadComplete" ng-click="imgCtrl.upload(img.file, $event)">upload</button>
 </div>

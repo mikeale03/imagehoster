@@ -95,8 +95,8 @@ angular.module("MyApp",["ngRoute"])
     ctrl.imgs = images.data;
     var length = ctrl.imgs.length;
     ctrl.index = 0;
+    ctrl.path = $location.protocol()+"://"+$location.host();
     ctrl.deleteImage = function(image) {
-
       $http({
         method:"POST",
         url:"/ImageGallery/php/delete_image.php",

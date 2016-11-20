@@ -192,7 +192,7 @@ input {
   position: absolute;
   font-size: 2em;
   top:20px;
-  right: 0;
+  right: -40px;
   height: 50px;
   width: 50px;
   text-align: center;
@@ -209,7 +209,22 @@ input {
 .mod-content:focus .closeBtn {
   visibility: visible;
 }
-
+.url {
+  position: absolute;
+  top:20px;
+  left:0px;
+  width: 100%;
+  color: white;
+  font-size: 1.3em
+  text-align:center;
+}
+.url input[type=text] {
+  text-align: center;
+  background-color: gray;
+  border: none;
+  text-decoration: none;
+  width: 80%;
+}
 form {
   text-align: center;
 }

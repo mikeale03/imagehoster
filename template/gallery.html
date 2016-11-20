@@ -9,13 +9,16 @@
       <div class="image-name">{{img.image_name}}</div>
     </div>
     <div style="position:relative">
-      <div class="input-rename"><input type="text" value="" placeholder="Enter Name"></div>
+      <!--<div class="input-rename"><input type="text" value="" placeholder="Enter Name"></div>-->
       <button ng-click="galCtrl.deleteImage(img)">delete</button>
-      <button class="renameBtn" ng-click=galCtrl.renameImage>rename</button>
+      <!--<button class="renameBtn" ng-click=galCtrl.renameImage>rename</button>-->
     </div>
   </div>
   <div class="mod" ng-show="galCtrl.isShowModal" >
     <div class="mod-content" tabindex="-1">
+      <div class="url">
+        URL: <input type="text" value="{{galCtrl.path +'/'+ galCtrl.imgs[galCtrl.index].image_url}}"/ readonly>
+      </div>
       <img ng-src="{{galCtrl.imgs[galCtrl.index].image_url}}" img-onload >
       <button ng-click="galCtrl.prevImage()" class="prevBtn"><span>&#60;</span></button>
       <button ng-click="galCtrl.nextImage()" class="nxtBtn"><span>&#62;</span></button>
