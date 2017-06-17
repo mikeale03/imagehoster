@@ -1,18 +1,18 @@
-  <div class="sign-form" ng-controller="signUpController as sgnUpCtrl">
+  <div class="sign-form">
     <br>
     <h1>Create Your Account</h1>
     <br>
-    <form class="form-group" ng-submit="sgnUpCtrl.signUp(sgnUpCtrl.user.email,sgnUpCtrl.user.password,sgnUpCtrl.confirm)" method="post">
-      <div class="{{sgnUpCtrl.hasError ? 'has-error':''}}">
-        <input class="form-control" type="email" placeholder="Enter your email address" ng-model="sgnUpCtrl.user.email" required>
+    <form class="form-group" ng-submit="$ctrl.signUp($ctrl.user.email,$ctrl.user.password,$ctrl.confirm)" method="post">
+      <div class="{{$ctrl.hasError ? 'has-error':''}}">
+        <input class="form-control" type="email" placeholder="Enter your email address" ng-model="$ctrl.user.email" required>
       </div>
-      <div class="{{!sgnUpCtrl.isMatch ? 'has-error':''}}">
-        <input class="form-control" type="password" placeholder="Enter your password" ng-model="sgnUpCtrl.user.password" required>
+      <div class="{{!$ctrl.isMatch ? 'has-error':''}}">
+        <input class="form-control" type="password" placeholder="Enter your password" ng-model="$ctrl.user.password" required>
       </div>
-      <div class="{{!sgnUpCtrl.isMatch ? 'has-error':''}}">
-        <input class="form-control" type="password" placeholder="Confirm password" ng-model="sgnUpCtrl.confirm" required>
+      <div class="{{!$ctrl.isMatch ? 'has-error':''}}">
+        <input class="form-control" type="password" placeholder="Confirm password" ng-model="$ctrl.confirm" required>
       </div>
-      <p style="color:red;">{{sgnUpCtrl.errorMsg}}</p>
+      <p style="color:red;">{{$ctrl.errorMsg}}</p>
       <button class="btn btn-primary btn-block" type="submit">SUBMIT</button>
     </form>
   </div>

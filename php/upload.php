@@ -4,9 +4,7 @@ session_start();
 //header('Content-Type: text/plain; charset=utf-8');
 require_once 'Connector.php';
 if(isset($_SESSION["id"])) {
-
   $user_id = $_SESSION["id"];
-  //var_dump($_FILES);
 } else {
   $user_id ="";
 }
@@ -61,26 +59,30 @@ try {
         sha1_file($_FILES['file']['tmp_name']),
         $ext
     );
-    if (!move_uploaded_file(
+    $response = array();
+    if(file_exists('../'.$path)) {
+        $response['message'] = 'File already exist!';
+    } elseif (!move_uploaded_file(
         $_FILES['file']['tmp_name'],
         '../'.$path
     )) {
         throw new RuntimeException('Failed to move uploaded file.');
     }
-    $response = array();
-    if($user_id) {
+    if($user_id && !array_key_exists('message',$response) ) {
       $stmt = $con->prepare("INSERT INTO images VALUES (NULL,:image_url,:image_name,:user_id)");
       $stmt->bindParam(':image_url',$path);
       $stmt->bindParam(':image_name',$_FILES['file']['name']);
       $stmt->bindParam(':user_id',$user_id);
       if($stmt->execute()) {
         $response["success"] = true;
+        $response["message"] = 'Upload Complete'; 
         $response["url"] = $path;
         echo json_encode($response);
       }
     } else {
       $response["success"] = true;
       $response["url"] = $path;
+      if(!array_key_exists('message',$response)) $response["message"] = 'Upload Complete'; 
       echo json_encode($response);
     }
 

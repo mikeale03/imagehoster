@@ -23,6 +23,7 @@ try {
     $response["log_in"] = null;
     $response["error_msg"] = "Email already exist!";
   } else {
+    echo $e;
     $response["log_in"] = null;
     $response["error_msg"] = "Registration Error!";
   }

@@ -8,7 +8,7 @@
   $response = array();
   $stmt = $con->prepare(" SELECT * FROM users where email_ad = :email_ad ");
   $stmt->bindParam(':email_ad',$email);
-  
+
   $stmt->execute();
   if($user=$stmt->fetch(PDO::FETCH_ASSOC)) {
     if($user["password"] == $pass) {

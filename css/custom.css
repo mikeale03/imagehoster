@@ -124,11 +124,10 @@ input {
   margin: auto;
   width: 700px;
   height: 700px;
-  /*overflow: auto;*/
 
 }
 
-.mod .mod-content .landscape {
+/*.mod .mod-content .landscape {
   width: 100%;
   height: auto;
 }
@@ -136,6 +135,13 @@ input {
 .mod .mod-content .portrait {
   width: auto;
   height: 100%;
+}*/
+
+.mod .mod-content img {
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .modal-image-name {

@@ -1,15 +1,15 @@
-<div class="sign-form" ng-controller="signInController as sgnInCtrl">
+<div class="sign-form" >
   <br>
   <h1>Sign In To Your Account</h1>
   <br>
-  <form class="form-group" ng-submit="sgnInCtrl.signIn()" method="post">
-    <div class="form-group {{sgnInCtrl.errorNum == 1? 'has-error':'' }}">
-      <input type="email" class="form-control"  ng-model="sgnInCtrl.user.email" placeholder="Email Address">
+  <form class="form-group" ng-submit="$ctrl.signIn()" method="post">
+    <div class="form-group {{$ctrl.errorNum == 1? 'has-error':'' }}">
+      <input type="email" class="form-control"  ng-model="$ctrl.user.email" placeholder="Email Address">
     </div>
-    <div class="form-group {{sgnInCtrl.errorNum == 2? 'has-error':''}}">
-      <input type="password"  class="form-control" ng-model="sgnInCtrl.user.password" placeholder="Password">
+    <div class="form-group {{$ctrl.errorNum == 2? 'has-error':''}}">
+      <input type="password"  class="form-control" ng-model="$ctrl.user.password" placeholder="Password">
     </div>
-      <p style="color:red;" ng-if="sgnInCtrl.isInvalid">{{sgnInCtrl.errMsg}}</p>
+      <p style="color:red;" ng-if="$ctrl.isInvalid">{{$ctrl.errMsg}}</p>
     <button class="btn btn-primary btn-block" type="submit">LOG IN</button>
   </form>
 </div>

@@ -2,93 +2,50 @@ angular.module("MyApp",["ngRoute"])
   .controller("mainController", function($scope) {
     var ctrl = this;
     ctrl.showImgs = [];
+    this.addImage = function(image) {
+      $scope.$evalAsync(function() {
+        var l = ctrl.showImgs.length;
+        if(l>0) {
+          image.id = ctrl.showImgs[l-1].id + 1;
+        } else {
+          image.id = 1;
+        }
+        ctrl.showImgs = ctrl.showImgs.concat([image]);
+      });
+      
+    }
+
+    this.deleteImage = function(event) {
+      var a = []
+      var index = ctrl.showImgs.indexOf(event.image);
+      ctrl.showImgs.splice(index,1);
+      ctrl.showImgs = a.concat(ctrl.showImgs);
+      console.log(ctrl.showImgs);
+    }
+
+    ctrl.addImageFiles = function(e) {
+       var l = e.files.length;
+       console.log(l);
+       for(var i=0;i<l;i++) {
+          var reader = new FileReader();
+          reader.onload = (function(file) {
+              var img = {};
+              img.file = file;
+              img.id = i;
+              return function() {
+                img.src = this.result;
+                ctrl.addImage(img);
+              }
+          })(e.files[i]);
+          reader.readAsDataURL(e.files[i]);
+      }
+    }
+  
     $scope.$on("routeChange", function() {
       ctrl.showImgs = [];
     })
   })
 
-  .controller("uploadController", function() {
-    this.showimgs = [];
-  })
-
-  .controller("navbarController",function($location) {
-    this.isRoute = function(route) {
-      console.log($location.path());
-      if($location.path() == route) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-  })
-
-  .controller("signUpController", function($http, $rootScope,$location) {
-    var ctrl = this;
-    ctrl.user = {};
-    ctrl.isMatch = true;
-    ctrl.hasError = false;
-    ctrl.errorMsg = "";
-    this.signUp = function(email,pass,ver) {
-      ctrl.hasError = false;
-      if(pass!== ver) {
-        ctrl.isMatch = false;
-        ctrl.errorMsg = "Password don't match!";
-      } else {
-        ctrl.isMatch = true;
-        $http({
-          method:"POST",
-          url:"/ImageGallery/php/sign_up.php",
-          data: ctrl.user,
-          //transformRequest: angular.identity,
-          headers:{"Content-Type":"application/x-www-form-urlencoded"}
-        }).then(function(response) {
-          if(response.data.log_in) {
-            $rootScope.userData = response.data;
-            $location.path("/upload");
-          } else {
-            ctrl.errorMsg = response.data.error_msg;
-            ctrl.hasError = true;
-          }
-        }, function(response) {
-            ctrl.errorMsg = "Server Error!";
-        });
-      }
-      console.log(ctrl.errorMsg);
-    }
-
-  })
-  .controller("signInController", ['$http','$rootScope','Ajax', '$location',function($http, $rootScope, Ajax,$location) {
-    var ctrl = this;
-    ctrl.errorNum = 0;
-    ctrl.user = {};
-    ctrl.isInvalid = false;
-
-    this.signIn = function() {
-      $http({
-        method:"POST",
-        url:"/ImageGallery/php/sign_in.php",
-        data: ctrl.user,
-        //transformRequest: angular.identity,
-        headers:{"Content-Type":"application/x-www-form-urlencoded"}
-      }).then(function(response) {
-        console.log(response.data);
-        if(response.data.log_in) {
-          $rootScope.userData = response.data;
-          $location.path("/login");
-          //Ajax.getUserImages();
-        } else {
-          ctrl.isInvalid = true;
-          ctrl.errorNum = response.data.error_num;
-          ctrl.errMsg = response.data.error_msg;
-        }
-      }, function(resp) {
-        ctrl.isInvalid = true;
-        ctrl.errMsg = "Server Error!";
-      });
-    }
-
-  }])
   .controller("galleryController", ['images','$location','$rootScope','$http', function(images, $location,$rootScope,$http) {
     var ctrl = this;
     ctrl.isShowModal = false;
@@ -157,57 +114,4 @@ angular.module("MyApp",["ngRoute"])
       $rootScope.userData = {};
     }
   }])
-  .config(function($routeProvider) {
-    $routeProvider
-    .when("/upload", {
-        templateUrl : "template/upload.html"
-    })
-    .when("/signin", {
-        templateUrl : "template/sign_in.html"
-    })
-    .when("/signup", {
-        templateUrl : "template/sign_up.html"
-    })
-    .when("/gallery",{
-        templateUrl:"template/gallery.html",
-
-        controller: "galleryController",
-        controllerAs: "galCtrl",
-        resolve: {
-          images: function(Ajax) {
-            return promise = Ajax.getUserImages();
-            //promise.then(function(data) {
-            //  return data.data;
-              //console.log(ctrl.imgs)
-            //});
-          }
-
-        }
-    })
-    .when("/logout", {
-      templateUrl : "template/upload.html",
-      controller: "logOutController",
-      resolve: {
-        logout: function(Ajax) {
-          return Ajax.logOut();
-        }
-      }
-    })
-    .otherwise({
-        templateUrl : "template/upload.html"
-    })
-  })
-  .run(function($rootScope, Ajax, $location) {
-    var userData = Ajax.getUserData();
-    userData.then(function(response) {
-      if(response.data.id){
-        $rootScope.userData = response.data;
-      } else {
-        $location.path("/signin");
-      }
-    });
-
-    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-        $rootScope.$broadcast("routeChange");
-    });
-  });
+  
