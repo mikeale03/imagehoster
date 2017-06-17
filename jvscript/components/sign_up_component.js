@@ -32,7 +32,6 @@ angular.module('MyApp')
               ctrl.errorMsg = "Server Error!";
           });
         }
-        console.log(ctrl.errorMsg);
       }
     },
     template: 

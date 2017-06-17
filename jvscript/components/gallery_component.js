@@ -2,28 +2,19 @@ angular.module('MyApp').component('myGallery', {
     bindings : {
         imgs : '<'
     }, 
-    controller : function($location,$rootScope,$http) {
+    controller : function(Ajax,$location,$rootScope) {
         var ctrl = this;
-        console.log(ctrl.imgs);
         ctrl.isShowModal = false;
         var length;
         ctrl.index = 0;
         ctrl.path = $location.protocol()+"://"+$location.host();
-
         this.$onInit = function() {
             ctrl.images = ctrl.imgs.data;
             length = ctrl.images.length;
-            console.log(ctrl.imgs);
         }
-
+        
         ctrl.deleteImage = function(image) {
-            $http({
-                method:"POST",
-                url:"/ImageGallery/php/delete_image.php",
-                data: {imageId: image.image_id},
-                //transformRequest: angular.identity,
-                headers:{"Content-Type":"application/x-www-form-urlencoded"}
-            }).then(function(response) {
+            Ajax.deleteImage(image).then(function(response) {
                 console.log(response);
                 if(response.data.deleted) {
                     var index = ctrl.images.indexOf(image);

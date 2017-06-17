@@ -10,7 +10,6 @@ angular.module('MyApp').component('myUpload', {
             if (changes.imgs) {
                 ctrl.imgs = changes.imgs.currentValue;
             }
-            console.log(ctrl.imgs);
         };
         ctrl.delete = function(img) {
             ctrl.onDelete({

@@ -28,25 +28,21 @@ angular.module('MyApp')
 
     this.logOut = function() {
       return $http(new Request('GET','log_out.php'));
-      /*$http({
-        method:'GET',
-        url:baseUrl+'log_out.php',
-        transformRequest: angular.identity,
-        headers:{"Content-Type":"application/x-www-form-urlencoded"}
-      }).then(function(response) {
-        return response
-      });*/
+    }
+
+    this.isLogIn = () => {
+      $http(new Request('GET','get_user.php'))
+      .then(function(response) {
+        if(response.data.id)
+          return true;
+        else
+          return false;
+      });
     }
 
     this.getUserData = function() {
       return $http(new Request('GET','get_user.php'));
-      /*$http({
-        method:'GET',
-        url:baseUrl+'get_user.php',
-        transformRequest: angular.identity,
-        headers:{"Content-Type":"application/x-www-form-urlencoded"}
-      });*/
     }
 
-
+    this.deleteImage = (image) => $http(new Request('POST','delete_image.php',image));
   });

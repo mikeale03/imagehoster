@@ -20,12 +20,11 @@ angular.module("MyApp", ["ngRoute"]).controller("mainController", ["$scope", fun
     var index = ctrl.showImgs.indexOf(event.image);
     ctrl.showImgs.splice(index, 1);
     ctrl.showImgs = a.concat(ctrl.showImgs);
-    console.log(ctrl.showImgs);
   };
 
   ctrl.addImageFiles = function (e) {
     var l = e.files.length;
-    console.log(l);
+
     for (var i = 0; i < l; i++) {
       var reader = new FileReader();
       reader.onload = function (file) {
@@ -59,7 +58,6 @@ angular.module("MyApp", ["ngRoute"]).controller("mainController", ["$scope", fun
       //transformRequest: angular.identity,
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
     }).then(function (response) {
-      console.log(response);
       if (response.data.deleted) {
         var index = ctrl.imgs.indexOf(image);
         ctrl.imgs.splice(index, 1);
@@ -77,7 +75,7 @@ angular.module("MyApp", ["ngRoute"]).controller("mainController", ["$scope", fun
       //transformRequest: angular.identity,
       headers: { "Content-Type": "application/x-www-form-urlencoded" }
     }).then(function (response) {
-      console.log(response);
+
       if (response.data.updated) {
         var index = ctrl.imgs.indexOf(image);
         ctrl.imgs[index].image_name = image.image_name;
@@ -105,7 +103,7 @@ angular.module("MyApp", ["ngRoute"]).controller("mainController", ["$scope", fun
     ctrl.isShowModal = false;
   };
 }]).controller("logOutController", ['logout', '$rootScope', '$location', function (logout, $rootScope) {
-  console.log(logout.data);
+
   if (logout.data.logout) {
     $rootScope.userData = {};
   }
@@ -115,16 +113,19 @@ angular.module("MyApp").config(["$routeProvider", function ($routeProvider) {
   $routeProvider.when("/upload", {
     template: "<my-upload imgs='mainCtrl.showImgs' on-delete='mainCtrl.deleteImage($event)' on-add-files='mainCtrl.addImageFiles($event)'></my-upload>"
   }).when("/signin", {
-    template: "<sign-in></sign-in>"
+    template: "<sign-in></sign-in>",
+    logIn: false
   }).when("/signup", {
-    template: "<sign-up></sign-up>"
+    template: "<sign-up></sign-up>",
+    logIn: false
   }).when("/gallery", {
     template: "<my-gallery imgs='$resolve.imgs'></my-gallery>",
     resolve: {
       imgs: ["Ajax", function imgs(Ajax) {
         return Ajax.getUserImages();
       }]
-    }
+    },
+    logIn: true
   }).when("/logout", {
     template: "<my-upload imgs='mainCtrl.showImgs' on-delete='mainCtrl.deleteImage($event)' on-add-files='mainCtrl.addImageFiles($event)'></my-upload>",
     controller: "logOutController",
@@ -137,16 +138,22 @@ angular.module("MyApp").config(["$routeProvider", function ($routeProvider) {
     template: "<my-upload imgs='mainCtrl.showImgs' on-delete='mainCtrl.deleteImage($event)' on-add-files='mainCtrl.addImageFiles($event)'></my-upload>"
   });
 }]).run(["$rootScope", "Ajax", "$location", function ($rootScope, Ajax, $location) {
-  var userData = Ajax.getUserData();
-  userData.then(function (response) {
-    if (response.data.id) {
-      $rootScope.userData = response.data;
-    } else {
-      $location.path("/upload");
-    }
+  Ajax.getUserData().then(function (response) {
+    if (response.data.id) $rootScope.userData = response.data;
   });
-
   $rootScope.$on("$routeChangeStart", function (event, next, current) {
+    if (next.$$route.logIn === true) {
+      Ajax.getUserData().then(function (response) {
+        if (!response.data.id) $location.path('/upload');
+      });
+    } else if (next.$$route.logIn === false) {
+      Ajax.getUserData().then(function (response) {
+        if (response.data.id) {
+          event.preventDefault();
+          $location.path('/upload');
+        }
+      });
+    }
     $rootScope.$broadcast("routeChange");
   });
 }]);
@@ -182,24 +189,20 @@ angular.module('MyApp').service('Ajax', ["$http", "$q", function ($http, $q) {
 
   this.logOut = function () {
     return $http(new Request('GET', 'log_out.php'));
-    /*$http({
-      method:'GET',
-      url:baseUrl+'log_out.php',
-      transformRequest: angular.identity,
-      headers:{"Content-Type":"application/x-www-form-urlencoded"}
-    }).then(function(response) {
-      return response
-    });*/
+  };
+
+  this.isLogIn = function () {
+    $http(new Request('GET', 'get_user.php')).then(function (response) {
+      if (response.data.id) return true;else return false;
+    });
   };
 
   this.getUserData = function () {
     return $http(new Request('GET', 'get_user.php'));
-    /*$http({
-      method:'GET',
-      url:baseUrl+'get_user.php',
-      transformRequest: angular.identity,
-      headers:{"Content-Type":"application/x-www-form-urlencoded"}
-    });*/
+  };
+
+  this.deleteImage = function (image) {
+    return $http(new Request('POST', 'delete_image.php', image));
   };
 }]);
 
@@ -269,28 +272,19 @@ angular.module('MyApp').component('myGallery', {
   bindings: {
     imgs: '<'
   },
-  controller: ["$location", "$rootScope", "$http", function controller($location, $rootScope, $http) {
+  controller: ["Ajax", "$location", "$rootScope", function controller(Ajax, $location, $rootScope) {
     var ctrl = this;
-    console.log(ctrl.imgs);
     ctrl.isShowModal = false;
     var length;
     ctrl.index = 0;
     ctrl.path = $location.protocol() + "://" + $location.host();
-
     this.$onInit = function () {
       ctrl.images = ctrl.imgs.data;
       length = ctrl.images.length;
-      console.log(ctrl.imgs);
     };
 
     ctrl.deleteImage = function (image) {
-      $http({
-        method: "POST",
-        url: "/ImageGallery/php/delete_image.php",
-        data: { imageId: image.image_id },
-        //transformRequest: angular.identity,
-        headers: { "Content-Type": "application/x-www-form-urlencoded" }
-      }).then(function (response) {
+      Ajax.deleteImage(image).then(function (response) {
         console.log(response);
         if (response.data.deleted) {
           var index = ctrl.images.indexOf(image);
@@ -351,7 +345,6 @@ angular.module('MyApp').component('myUpload', {
       if (changes.imgs) {
         ctrl.imgs = changes.imgs.currentValue;
       }
-      console.log(ctrl.imgs);
     };
     ctrl.delete = function (img) {
       ctrl.onDelete({
@@ -428,7 +421,6 @@ angular.module('MyApp').component('signUp', {
           ctrl.errorMsg = "Server Error!";
         });
       }
-      console.log(ctrl.errorMsg);
     };
   }],
   template: "<div class=\"sign-form\">\n        <br>\n        <h1>Create Your Account</h1>\n        <br>\n        <form class=\"form-group\" ng-submit=\"$ctrl.signUp($ctrl.user.email,$ctrl.user.password,$ctrl.confirm)\" method=\"post\">\n          <div class=\"{{$ctrl.hasError ? 'has-error':''}}\">\n            <input class=\"form-control\" type=\"email\" placeholder=\"Enter your email address\" ng-model=\"$ctrl.user.email\" required>\n          </div>\n          <div class=\"{{!$ctrl.isMatch ? 'has-error':''}}\">\n            <input class=\"form-control\" type=\"password\" placeholder=\"Enter your password\" ng-model=\"$ctrl.user.password\" required>\n          </div>\n          <div class=\"{{!$ctrl.isMatch ? 'has-error':''}}\">\n            <input class=\"form-control\" type=\"password\" placeholder=\"Confirm password\" ng-model=\"$ctrl.confirm\" required>\n          </div>\n          <p style=\"color:red;\">{{$ctrl.errorMsg}}</p>\n          <button class=\"btn btn-primary btn-block\" type=\"submit\">SUBMIT</button>\n        </form>\n      </div>"

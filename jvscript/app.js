@@ -20,12 +20,12 @@ angular.module("MyApp",["ngRoute"])
       var index = ctrl.showImgs.indexOf(event.image);
       ctrl.showImgs.splice(index,1);
       ctrl.showImgs = a.concat(ctrl.showImgs);
-      console.log(ctrl.showImgs);
+      
     }
 
     ctrl.addImageFiles = function(e) {
        var l = e.files.length;
-       console.log(l);
+       
        for(var i=0;i<l;i++) {
           var reader = new FileReader();
           reader.onload = (function(file) {
@@ -61,7 +61,6 @@ angular.module("MyApp",["ngRoute"])
         //transformRequest: angular.identity,
         headers:{"Content-Type":"application/x-www-form-urlencoded"}
       }).then(function(response) {
-        console.log(response);
         if(response.data.deleted) {
           var index = ctrl.imgs.indexOf(image);
           ctrl.imgs.splice(index,1);
@@ -79,7 +78,7 @@ angular.module("MyApp",["ngRoute"])
         //transformRequest: angular.identity,
         headers:{"Content-Type":"application/x-www-form-urlencoded"}
       }).then(function(response) {
-        console.log(response);
+       
         if(response.data.updated) {
           var index = ctrl.imgs.indexOf(image);
           ctrl.imgs[index].image_name = image.image_name;
@@ -109,7 +108,7 @@ angular.module("MyApp",["ngRoute"])
 
   }])
   .controller("logOutController", ['logout','$rootScope','$location', function(logout, $rootScope)  {
-    console.log(logout.data);
+    
     if(logout.data.logout) {
       $rootScope.userData = {};
     }

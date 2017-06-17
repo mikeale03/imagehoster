@@ -6,7 +6,7 @@
     require_once 'Connector.php';
     $sql = "SELECT * FROM images where image_id = :id";
     $stmt = $con->prepare($sql);
-    $stmt->bindParam(':id',$request->imageId);
+    $stmt->bindParam(':id',$request->image_id);
     $stmt->execute();
     $response = array();
     if($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
